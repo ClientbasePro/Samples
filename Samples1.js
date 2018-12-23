@@ -11,7 +11,7 @@ display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="0,00");
     // АДРЕС
 $("#value690").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
-    token: "2b5decc3e9a21ace7436634495bcb163ac9f6412",
+    token: "****",
     type: "ADDRESS",
     count: 5,
     formatSelected: function (suggestions) { return suggestions.value || ""; }
@@ -20,7 +20,7 @@ $("#value690").suggestions({
 	// БАНК
 $("#value4967").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
-    token: "d98dd56324086753fcd28fe72d3168420d816325",
+    token: "****",
     type: "BANK",
     count: 5,
     formatSelected: function (suggestion) { 
@@ -33,7 +33,7 @@ $("#value4967").suggestions({
     // РЕКВИЗИТЫ
 $("#value780").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
-    token: "2b5decc3e9a21ace7436634495bcb163ac9f6412",
+    token: "****",
     type: "PARTY",
     count: 5,
     formatSelected: function (suggestion) {  
