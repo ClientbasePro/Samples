@@ -55,15 +55,25 @@ $smarty->assign("yList2", $yList2);
   </table>
 </div>  
 
+  // дописать 0 в дне месяца, если он до 10
+str_pad($month, 2, '0', STR_PAD_LEFT);
 
+  // коды для ВО
+echo '<script>window.opener.location.reload(1); window.close(); </script>';
 
+$s = <<<EOT
+<form method="GET">
+  <input type='hidden' name='id' value='$button_id'> 
+  <input type='hidden' name='line_id' value='$ID'>  
+  <h3>Заголовок</h3>
+  <input type="date" min="$today" name="date" value='$tomorrow'>
+  <input type="submit" value="Записать">
+</form>
+EOT;
+echo $s;
 
-
-
-
-
-
-
+  // загрузка вышестоящего поля из нижестоящего в подтаблице
+if (!$line['Категория']['raw'] && $line['Прайс-лист']['raw'] && $line['Прайс-лист']['Категория']['raw']) $line['Категория'] = $line['Прайс-лист']['Категория']['raw'];
 
 
 
