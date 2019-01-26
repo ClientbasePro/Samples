@@ -66,8 +66,8 @@ $s = <<<EOT
   <input type='hidden' name='id' value='$button_id'> 
   <input type='hidden' name='line_id' value='$ID'>  
   <h3>Заголовок</h3>
-  <input type="date" min="$today" name="date" value='$tomorrow'>
-  <input type="submit" value="Записать">
+  <input type='date' min='$today' name='date' value='$tomorrow'>
+  <input type='submit' value='Записать'>
 </form>
 EOT;
 echo $s;
