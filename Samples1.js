@@ -2,6 +2,15 @@
 
   
   
+  
+  // установка трубки для коллбэков через JS
+if (phone=document.getElementById('view_cell_{$one_field.id}')) {
+  var phones = phone.innerText.split(',');
+  phone.innerHTML = '';
+  phones.forEach(function(item) { phone.innerHTML += item + '<span><img src="https://clientbasepro.ru/Customization/images/phone.png" class="calling" onclick="MakeCall('+item.replace(/\D/g,'')+',0,0,0,this)"; </span>'; });
+}  
+  
+  
   // скрытие пустого поля в карточке средствами JS
 display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="");
 display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="0");
