@@ -7,8 +7,12 @@
 if (phone=document.getElementById('view_cell_{$one_field.id}')) {
   var phones = phone.innerText.split(',');
   phone.innerHTML = '';
-  phones.forEach(function(item) { phone.innerHTML += item + '<span><img src="https://clientbasepro.ru/Customization/images/phone.png" class="calling" onclick="MakeCall('+item.replace(/\D/g,'')+',0,0,0,this)"; </span>'; });
+  phones.forEach(function(item) { if(item) phone.innerHTML += item + '<span><img src="https://clientbasepro.ru/Customization/images/phone.png" class="calling" onclick="MakeCall('+item.replace(/\D/g,'')+',0,0,0,this)"; </span>,'; });
 }  
+  
+  // обнуление поля при установке курсора, если в поле было 0 с ведущими нулями
+if (el=document.getElementById('value{$one_field.id}')) el.onclick = function() { if('0,00'==this.value)this.value=''; }
+if (el=document.getElementById('view_cell_{$one_field.id}')) el.onclick = function() { if('0,00'==this.value)this.value=''; }
   
   
   // скрытие пустого поля в карточке средствами JS
