@@ -3,14 +3,8 @@
   // примеры кода для CRM Clientbase
 
   
-  
-  
-  // форматирование поля для телефона
-$p = explode(',', $line['Телефон']);
-foreach ($p as $phone) $phones[] = ($p_=SetNumber($phone)) ? $p_ : $phone;
-$line['Телефон'] = implode(',', $phones);  
-
-  
+ 
+ 
   // уведомление аналог JS alert, работающее даже в подтаблице
 calc_alerts($text);
 
@@ -75,9 +69,9 @@ echo $s;
   // загрузка вышестоящего поля из нижестоящего в подтаблице
 if (!$line['Категория']['raw'] && $line['Прайс-лист']['raw'] && $line['Прайс-лист']['Категория']['raw']) $line['Категория'] = $line['Прайс-лист']['Категория']['raw'];
 
-
-
-  
+  // форматирование телефонов
+foreach (explode(',',$line['Телефон']) as $index=>$phone) if ($phone) $phones[$index] = ($p=SetNumber($phone)) ? : $phone;
+$line['Телефон'] = implode(', ', $phones);
   
   
 ?>
