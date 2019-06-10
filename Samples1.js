@@ -20,6 +20,8 @@ display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="");
 display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="0");
 display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="0,00");
 
+  // скрытие фильтра с 0 кол-вом строк в нём
+if ((a=document.querySelector('a[href="fields.php?table=XXX&filter=YYY"]'))&&a.text&&-1!=a.text.indexOf('(0)')) a.style.display='none';
 
     // АДРЕС
 $("#value690").suggestions({
