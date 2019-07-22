@@ -64,8 +64,34 @@ $("#value780").suggestions({
 });
 
 
+  // скрытие групп полей для ФЛ/ЮЛ
+function SetAccountType () {
+    var v = document.getElementById("value{$one_field.id}");
+    var vc = document.getElementById("view_cell_{$one_field.id}");
+    var edit = ((edit=document.getElementById('edit_block')) && 'none'!=edit.style.display) ? 1 : 0;
+    var type = 0;
+    if ((edit && v && 'ФЛ'==v.value) || (!edit && vc && ('ФЛ'==vc.value || 'ФЛ'==vc.innerText))) type = 1;
+    else if ((edit && v && 'ЮЛ'==v.value) || (!edit && vc && ('ЮЛ'==vc.value || 'ЮЛ'==vc.innerText))) type = 2;
+    if (type) {
+        if (1==type) {
+            display_fgroup(31, 0);
+            display_fgroup(51, 0);
+            display_fgroup(21, 1);
+            return 1;
+        }
+        else if (2==type) {
+            display_fgroup(31, 1);
+            display_fgroup(51, 1);
+            display_fgroup(21, 0);
+            return 2;
+        }        
+    }
+    return false;   
+}
 
-
+$(document).ready(SetAccountType);
+$('#value{$one_field.id}').change(SetAccountType);
+$('#view_cell_{$one_field.id}').change(SetAccountType);
 
 
 
