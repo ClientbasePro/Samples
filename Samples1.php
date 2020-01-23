@@ -73,5 +73,16 @@ if (!$line['Категория']['raw'] && $line['Прайс-лист']['raw'] &
 foreach (explode(',',$line['Телефон']) as $index=>$phone) if ($phone) $phones[$index] = ($p=SetNumber($phone)) ? : $phone;
 $line['Телефон'] = implode(', ', $phones);
   
+
+  // универсальный код полного удаления записи и всех ссылающихся на неё записей
+  // получаем все таблицы, ссылающиеся на данную таблицу
+$res = sql_query("SELECT id, table_id FROM ".$config['table_prefix']."fields WHERE type_field=5 AND type_value LIKE '".$table_id."|%'");
+while ($row=sql_fetch_assoc($res)) data_delete($row['table_id'], EVENTS_ENABLE, "f".$row['id']."=$ID");
+  // удаляем теперь саму запись
+data_delete($table_id, EVENTS_ENABLE, "id=$ID");
+  // информирование и переход в таблицу
+display_notification('Запись успешно удалена!',3);
+header('Location: fields.php?table='.$table_id);
+
+
   
-?>
