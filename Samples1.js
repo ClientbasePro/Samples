@@ -92,7 +92,7 @@ function SetAccountType () {
 $(document).ready(SetAccountType);
 $('#value{$one_field.id}').change(SetAccountType);
 $('#view_cell_{$one_field.id}').change(SetAccountType);
-
+calc.calcFunctions.push(SetAccountType);
 
 
 
