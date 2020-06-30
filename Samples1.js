@@ -24,7 +24,7 @@ display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="0,00");
 if ((a=document.querySelector('a[href="fields.php?table=XXX&filter=YYY"]'))&&a.text&&-1!=a.text.indexOf('(0)')) a.style.display='none';
 
     // АДРЕС
-$("#value690").suggestions({
+$("#value{$one_field.id}").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
     token: "****",
     type: "ADDRESS",
@@ -33,7 +33,7 @@ $("#value690").suggestions({
 });
 
 	// БАНК
-$("#value4967").suggestions({
+$("#value{$one_field.id}").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
     token: "****",
     type: "BANK",
@@ -46,19 +46,19 @@ $("#value4967").suggestions({
 });
 
     // РЕКВИЗИТЫ
-$("#value780").suggestions({
+$("#value{$one_field.id}").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
     token: "****",
     type: "PARTY",
     count: 5,
     formatSelected: function (suggestion) {  
-        if (document.getElementById("value790") && suggestion.data.address.unrestricted_value) document.getElementById("value790").value = suggestion.data.address.unrestricted_value;
-        if (document.getElementById("value690") && suggestion.data.address.unrestricted_value) document.getElementById("value690").value = suggestion.data.address.unrestricted_value;
-        if (document.getElementById("value800") && suggestion.data.ogrn) document.getElementById("value800").value = suggestion.data.ogrn;
-        if (document.getElementById("value810") && suggestion.data.inn) document.getElementById("value810").value = suggestion.data.inn;
-        if (document.getElementById("value660") && suggestion.unrestricted_value) document.getElementById("value660").value = suggestion.unrestricted_value;
-        if (document.getElementById("value820") && suggestion.data.kpp) document.getElementById("value820").value = suggestion.data.kpp;
-        if (document.getElementById("value880") && suggestion.data.management && suggestion.data.management.name) document.getElementById("value880").value = suggestion.data.management.name;
+        if (el=document.getElementById("value790") && suggestion.data.address.unrestricted_value) el.value = suggestion.data.address.unrestricted_value;
+        if (el=document.getElementById("value690") && suggestion.data.address.unrestricted_value) el.value = suggestion.data.address.unrestricted_value;
+        if (el=document.getElementById("value800") && suggestion.data.ogrn) el.value = suggestion.data.ogrn;
+        if (el=document.getElementById("value810") && suggestion.data.inn) el.value = suggestion.data.inn;
+        if (el=document.getElementById("value660") && suggestion.unrestricted_value) el.value = suggestion.unrestricted_value;
+        if (el=document.getElementById("value820") && suggestion.data.kpp) el.value = suggestion.data.kpp;
+        if (el=document.getElementById("value880") && suggestion.data.management && suggestion.data.management.name) el.value = suggestion.data.management.name;
         return suggestion.unrestricted_value || "";
     }
 });
