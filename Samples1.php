@@ -10,7 +10,7 @@ calc_alerts($text);
 
 
   // суммирование из подтаблицы
-if ('delete'==$event['type'] || $line['Статус записи']) $c = " AND id!='".$ID."' ";
+if ('delete'==$event['type'] || $line['Статус записи']) $c = " AND id<>'".$ID."' ";
 $row = sql_fetch_assoc(data_select_field(550, 'SUM(f7460) AS sum', "status=0 {$c} AND f9430='".$line['Счёт']['raw']."'"));
 $line['Счёт']['Оплачено'] = $row['sum'];  
   
@@ -84,5 +84,18 @@ data_delete($table_id, EVENTS_ENABLE, "id=$ID");
 display_notification('Запись успешно удалена!',3);
 header('Location: fields.php?table='.$table_id);
 
+
+  // перевод справочника в галочки поля-мультисписка
+  // удаляемую строку исключаем и снимаем отметки по ней
+if ('delete'==$event['type'] || $line['Статус записи']) {
+  $c = " AND id<>'".$ID."' ";
+  SetCheckList(0, 'f5151', "f5151 LIKE '".$line['Потребность']."'", [$line['Потребность']], 'delete');
+}
+  // составляем новый список вариантов выбора
+$e = GetArrayFromTable(0, 'f5141', "status=0 {$c} ORDER BY f5141");
+$body = implode("\r\n", $e);
+sql_query("UPDATE ".FIELDS_TABLE." SET type_value='".$body."' WHERE id=5151 AND table_id=291 LIMIT 1");
+  // если переименовали строку, заменяем галочки
+if ($event['changed'][5141] && $event['changed'][5141]['old']) SetCheckList(0, 'f5151', "f5151 LIKE '".$event['changed'][5141]['old']."'", [$line['Потребность']], [$event['changed'][5141]['old']]);
 
   
