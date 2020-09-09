@@ -89,7 +89,7 @@ header('Location: fields.php?table='.$table_id);
   // удаляемую строку исключаем и снимаем отметки по ней
 if ('delete'==$event['type'] || $line['Статус записи']) {
   $c = " AND id<>'".$ID."' ";
-  SetCheckList(0, 'f5151', "f5151 LIKE '".$line['Потребность']."'", [$line['Потребность']], 'delete');
+  SetCheckList(0, 'f5151', "f5151 LIKE '%".$line['Потребность']."%'", [$line['Потребность']], 'delete');
 }
   // составляем новый список вариантов выбора
 $e = GetArrayFromTable(0, 'f5141', "status=0 {$c} ORDER BY f5141");
