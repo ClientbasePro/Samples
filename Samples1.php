@@ -10,7 +10,7 @@ calc_alerts($text);
 
 
   // суммирование из подтаблицы
-if ('delete'==$event['type'] || $line['Статус записи']) $c = " AND id<>'".$ID."' ";
+if ('delete'==$event['type'] || $line['Статус записи']) $c = " AND id<>$ID ";
 $row = sql_fetch_assoc(data_select_field(550, 'SUM(f7460) AS sum', "status=0 {$c} AND f9430='".$line['Счёт']['raw']."'"));
 $line['Счёт']['Оплачено'] = $row['sum'];  
   
@@ -99,3 +99,54 @@ sql_query("UPDATE ".FIELDS_TABLE." SET type_value='".$body."' WHERE id=5151 AND 
 if ($event['changed'][5141] && $event['changed'][5141]['old']) SetCheckList(0, 'f5151', "f5151 LIKE '".$event['changed'][5141]['old']."'", [$line['Потребность']], [$event['changed'][5141]['old']]);
 
   
+  // пример бэкенд кода для работы с JS функцией SetValue
+$tableId =intval($_REQUEST['tableId']);
+$fieldId = form_input($_REQUEST['fieldId']);
+$lineId = intval($_REQUEST['lineId']);
+$value  = form_input($_REQUEST['value']);
+$value2  = form_input($_REQUEST['value2']);
+$default = form_input($_REQUEST['default']);
+$unique = form_input($_REQUEST['unique']);
+if ($tableId && $fieldId && $lineId) {
+  $time = time();
+    // тип поля
+  $e = sql_fetch_assoc(sql_query("SELECT type_field, type_value, mult_value FROM ".FIELDS_TABLE." WHERE id='".intval(preg_replace('/\D/i','',$fieldId))."' LIMIT 1"));
+    // форматируем пришедшее значение под тип поля значение
+    // даты
+  if (2==$e['type_field']) $value = (!IsNullDate($value))   ?   date('Y-m-d H:i:s',strtotime($value))   :   NULL_DATETIME;
+    // если новая строка, сначала создаём её
+  if (-1==$lineId) {
+    $ins = [];
+    $ins['status'] = 0;
+      // проверка полей при создании по умолчанию
+    if ($default && 'undefined'!=$default) {
+      foreach (explode(",",$default) as $tmp) if (($tmp2=explode("=",$tmp)) && 2==count($tmp2)) $ins[$tmp2[0]] = $tmp2[1];
+      if ($unique) {
+        $cond = '';
+        if ('undefined'!=$unique) foreach (explode(",",$unique) as $field) $cond .= " AND ".$field."='".$ins[$field]."' ";
+        if ($cond) {
+          $e = sql_fetch_assoc(data_select_field($tableId, 'id', "status=0 {$cond} LIMIT 1"));
+          if ($e['id']) $lineId = $e['id'];
+        }
+      }
+    }
+    if (-1==$lineId) $lineId = data_insert($tableId, EVENTS_ENABLE, $ins);
+    $echo['id'] = $lineId;
+  }
+    // сохраняем значение поля
+    // мультисписки
+  if (4==$e['type_field'] && 1==$e['mult_value'] && $value2) {
+    if ($value) SetCheckList(0, $fieldId, $lineId, $value2);
+    else SetCheckList(0, $fieldId, $lineId, $value2, 'delete');
+    $echo['result'] = "ok";
+  }
+    // остальные поля
+  else {
+    data_update($tableId, EVENTS_ENABLE, [$fieldId=>$value], "id=$lineId LIMIT 1");
+    $echo['result'] = "ok";
+  }
+  $time2 = time();
+  if ($time2>$time) $echo['timing'] = intval($time2-$time);
+  if ($echo) echo json_encode($echo, JSON_UNESCAPED_UNICODE); 
+  exit;
+}
