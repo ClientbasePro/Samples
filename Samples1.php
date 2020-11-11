@@ -76,9 +76,11 @@ $line['Телефон'] = implode(', ', $phones);
 
   // универсальный код полного удаления записи и всех ссылающихся на неё записей
   // получаем все таблицы, ссылающиеся на данную таблицу
+  // сначала переводим в статус Удалённые, а то при data_delete не срабатывает EVENTS_ENABLE
 $res = sql_query("SELECT id, table_id FROM ".$config['table_prefix']."fields WHERE type_field=5 AND type_value LIKE '".$table_id."|%'");
-while ($row=sql_fetch_assoc($res)) data_delete($row['table_id'], EVENTS_ENABLE, "f".$row['id']."=$ID");
+while ($row=sql_fetch_assoc($res)) { data_update($row['table_id'], EVENTS_ENABLE, ['status'=>2], "f".$row['id']."=$ID"); data_delete($row['table_id'], EVENTS_ENABLE, "f".$row['id']."=$ID"); }
   // удаляем теперь саму запись
+data_update($table_id, EVENTS_ENABLE, ['status'=>2], "id=$ID");
 data_delete($table_id, EVENTS_ENABLE, "id=$ID");
   // информирование и переход в таблицу
 display_notification('Запись успешно удалена!',3);
