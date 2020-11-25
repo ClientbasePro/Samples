@@ -8,7 +8,20 @@ if (phone=document.getElementById('view_cell_{$one_field.id}')) {
   var phones = phone.innerText.split(',');
   phone.innerHTML = '';
   phones.forEach(function(item) { if(item) phone.innerHTML += item + '<span><img src="https://clientbasepro.ru/Customization/images/phone.png" class="calling" onclick="MakeCall('+item.replace(/\D/g,'')+',0,0,0,this)"; </span>,'; });
-}  
+}
+
+var phone = document.getElementById('view_cell_{$one_field.id}');
+var phone_array = phone.innerText.split(',');
+new_phone = new Array();
+var item_r;
+phone_array.forEach(function(item, i, arr) {
+        item_r = item.replace(/\D/g, '');
+        new_phone[i] = '<div style="display:inline;">'
+                        + item
+                        + '<img src="images/phone_icon1.png" title="Позвонить со своего внутреннего" height="16" width="16" style="margin-left:3px;cursor:pointer; margin-top:0px; vertical-align:bottom;" onclick="make_call_telphin('+item_r+')";>'
+                        + '<img src="images/mobile_phone.png" title="Позвонить со своего мобильного" height="16" width="16" style="margin-left:3px; cursor:pointer; margin-top:0px; vertical-align:bottom;" onclick="make_call_telphin('+item_r+',1)";></div> ';
+    });
+phone.innerHTML = new_phone.join();
   
   // обнуление поля при установке курсора, если в поле было 0 с ведущими нулями
 if (el=document.getElementById('value{$one_field.id}')) el.onclick = function() { if('0,00'==this.value)this.value=''; }
