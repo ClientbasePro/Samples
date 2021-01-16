@@ -98,7 +98,7 @@ $e = GetArrayFromTable(0, 'f5141', "status=0 {$c} ORDER BY f5141");
 $body = implode("\r\n", $e);
 sql_query("UPDATE ".FIELDS_TABLE." SET type_value='".$body."' WHERE id=5151 AND table_id=291 LIMIT 1");
   // если переименовали строку, заменяем галочки
-if ($event['changed'][5141] && $event['changed'][5141]['old']) SetCheckList(0, 'f5151', "f5151 LIKE '".$event['changed'][5141]['old']."'", [$line['Потребность']], [$event['changed'][5141]['old']]);
+if ($event['changed'][5141] && $event['changed'][5141]['old']) SetCheckList(0, 'f5151', "f5151 LIKE '%".$event['changed'][5141]['old']."%'", [$line['Потребность']], [$event['changed'][5141]['old']]);
 
   
   // пример бэкенд кода для работы с JS функцией SetValue
