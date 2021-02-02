@@ -125,7 +125,7 @@ if ($tableId && $fieldId && $lineId) {
       foreach (explode(",",$default) as $tmp) if (($tmp2=explode("=",$tmp)) && 2==count($tmp2)) $ins[$tmp2[0]] = $tmp2[1];
       if ($unique) {
         $cond = '';
-        if ('undefined'!=$unique) foreach (explode(",",$unique) as $field) $cond .= " AND ".$field."='".$ins[$field]."' ";
+        if ('undefined'!=$unique) foreach (explode(",",$unique) as $tmp) if (($tmp2=explode("=",$tmp)) && 2==count($tmp2)) $cond .= " AND ".$tmp2[0]."='".$tmp2[1]."' ";
         if ($cond) {
           $e = sql_fetch_assoc(data_select_field($tableId, 'id', "status=0 {$cond} LIMIT 1"));
           if ($e['id']) $lineId = $e['id'];
