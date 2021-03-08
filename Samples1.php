@@ -110,6 +110,35 @@ $value2  = form_input($_REQUEST['value2']);
 $default = form_input($_REQUEST['default']);
 $unique = form_input($_REQUEST['unique']);
 if ($tableId && $fieldId && $lineId) {
+    // сначала проверка прав на редактирование поля
+  $t = get_table($tableId);
+    // права на добавление
+  if (-1==$lineId) {
+    if (!$t['add']) {
+      echo '{"alert":"У Вас недостаточно прав для создания новой строки, обратитесь к администратору", "old":" "}'; 
+      exit;
+    }
+  }
+    // на архивацию
+  elseif ('status'==$fieldId) {
+    if (!$t['arc']) {
+      $e = sql_fetch_assoc(data_select_field($tableId, 'IF(0=status,1,0) AS arc', "id=$lineId LIMIT 1"));
+      echo '{"alert":"У Вас недостаточно прав для архивации/восстановления строки, обратитесь к администратору", "old":"'.$e['arc'].'"}'; 
+      exit;
+    }
+  }
+  elseif ($t) {
+    $f = get_table_fields($t);
+    if (!$f) exit;
+    $e = sql_fetch_assoc(data_select_field($tableId, '*', "id=$lineId LIMIT 1"));
+    $fieldId_ = intval(preg_replace('/\D/i','',$fieldId));
+    if (!$f[$fieldId_]) exit; 
+    $a = test_allow_write($f[$fieldId_], $e);
+    if (!$a) {
+      echo '{"alert":"У Вас недостаточно прав для изменения строки, обратитесь к администратору", "old":"'.$e[$fieldId].'"}'; 
+      exit;
+    }
+  }
   $time = time();
     // тип поля
   $e = sql_fetch_assoc(sql_query("SELECT type_field, type_value, mult_value FROM ".FIELDS_TABLE." WHERE id='".intval(preg_replace('/\D/i','',$fieldId))."' LIMIT 1"));
