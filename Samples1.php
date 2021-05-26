@@ -73,6 +73,14 @@ if (!$line['Категория']['raw'] && $line['Прайс-лист']['raw'] &
 foreach (explode(',',$line['Телефон']) as $index=>$phone) if ($phone) $phones[$index] = ($p=SetNumber($phone)) ? : $phone;
 $line['Телефон'] = implode(', ', $phones);
   
+  // позвонить
+$phones = [];
+foreach (explode(',',$line['Телефон']) as $p) {
+  $phones[] = ($p_=SetNumber($p)) 
+      ? '<div style="display:inline;">'.SetNumber($p,0,0,"+7ABC*****NN").'<img src="https://clientbasepro.ru/Customization/images/phone.png" title="Позвонить" width="16" style="margin-left:3px; cursor:pointer; margin-top:0; vertical-align:bottom;" onclick="MakeCall(\''.$p_.'\',0,'.$table_id.','.$ID.',this)"></div>'
+      : $p;
+}
+$line['Позвонить'] = implode(', ', $phones);
 
   // универсальный код полного удаления записи и всех ссылающихся на неё записей
   // получаем все таблицы, ссылающиеся на данную таблицу
