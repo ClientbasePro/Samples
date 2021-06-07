@@ -60,20 +60,23 @@ $("#value{$one_field.id}").suggestions({
 
     // РЕКВИЗИТЫ
 $("#value{$one_field.id}").suggestions({
-    serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
-    token: "****",
-    type: "PARTY",
-    count: 5,
-    formatSelected: function (suggestion) {  
-        if (el=document.getElementById("value790") && suggestion.data.address.unrestricted_value) el.value = suggestion.data.address.unrestricted_value;
-        if (el=document.getElementById("value690") && suggestion.data.address.unrestricted_value) el.value = suggestion.data.address.unrestricted_value;
-        if (el=document.getElementById("value800") && suggestion.data.ogrn) el.value = suggestion.data.ogrn;
-        if (el=document.getElementById("value810") && suggestion.data.inn) el.value = suggestion.data.inn;
-        if (el=document.getElementById("value660") && suggestion.unrestricted_value) el.value = suggestion.unrestricted_value;
-        if (el=document.getElementById("value820") && suggestion.data.kpp) el.value = suggestion.data.kpp;
-        if (el=document.getElementById("value880") && suggestion.data.management && suggestion.data.management.name) el.value = suggestion.data.management.name;
-        return suggestion.unrestricted_value || "";
+  serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
+  token: "****",
+  type: "PARTY",
+  count: 5,
+  formatSelected: function (suggestion) {
+    if (s=suggestion.data) {
+      if ((el=document.getElementById("value28730")) && s.address && s.address.unrestricted_value) el.value = s.address.unrestricted_value;
+      if ((el=document.getElementById("value7951")) && s.address && s.address.unrestricted_value) el.value = s.address.unrestricted_value;
+      if ((el=document.getElementById("value7931")) && s.address && s.address.data && s.address.data.postal_code) el.value = s.address.data.postal_code;
+      if ((el=document.getElementById("value7971")) && s.ogrn) el.value = s.ogrn;
+      if ((el=document.getElementById("value9441")) && s.management && s.management.name) el.value = s.management.name;
+      if ((el=document.getElementById("value7861")) && s.name && s.name.full_with_opf) el.value = s.name.full_with_opf;
+      if ((el=document.getElementById("value18661")) && s.name && s.name.short_with_opf) el.value = s.name.short_with_opf;
+      return s.inn || "";
     }
+    else return false;
+  }
 });
 
 
