@@ -45,6 +45,22 @@ $("#value{$one_field.id}").suggestions({
     formatSelected: function (suggestions) { return suggestions.value || ""; }
 });
 
+setTimeout(
+  function() {
+    $("#view_cell_{$one_field.id}").suggestions({
+      serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
+      token: "****",
+      type: "ADDRESS",
+      count: 5,
+      formatSelected: function (suggestion) {
+        if ((el=document.getElementById("view_cell_****")) && suggestion.data.geo_lat && suggestion.data.geo_lon) el.value = suggestion.data.geo_lat + ' ' + suggestion.data.geo_lon;
+        return suggestion.value || ""; 
+      }
+    });
+  },
+  2000
+);
+
 	// БАНК
 $("#value{$one_field.id}").suggestions({
     serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
