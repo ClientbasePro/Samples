@@ -10,9 +10,9 @@ calc_alerts($text);
 
 
   // суммирование из подтаблицы
-if ('delete'==$event['type'] || $line['Статус записи']) $c = " AND id<>$ID ";
-$row = sql_fetch_assoc(data_select_field(550, 'SUM(f7460) AS sum', "status=0 {$c} AND f9430='".$line['Счёт']['raw']."'"));
-$line['Счёт']['Оплачено'] = $row['sum'];  
+$c = ('delete'==$event['type'] || $line['Статус записи'])    ?    " AND id<>$ID "    :    "";
+$e = sql_fetch_assoc(data_select_field($table_id, 'SUM(f7460) AS summ', "status=0 {$c} AND f9430='".$line['Счёт']['raw']."'"));
+$line['Счёт']['Оплачено'] = e['summ'];  
   
   
   // часть 1 Отчётов с выбором периода МГ - МГ
