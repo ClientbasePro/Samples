@@ -37,12 +37,15 @@ display_field({$one_field.id}, $('#view_cell_{$one_field.id}').text()!="0,00");
 if ((a=document.querySelector('a[href="fields.php?table=XXX&filter=YYY"]'))&&a.text&&-1!=a.text.indexOf('(0)')) a.style.display='none';
 
     // АДРЕС
-$("#value{$one_field.id}").suggestions({
-    serviceUrl: "https://suggestions.dadata.ru/suggestions/api/4_1/rs",
-    token: "****",
-    type: "ADDRESS",
+$('#value{$one_field.id}').suggestions({
+    serviceUrl: 'https://suggestions.dadata.ru/suggestions/api/4_1/rs',
+    token: '{DADATA_API_KEY}',
+    type: 'ADDRESS',
     count: 5,
-    formatSelected: function (suggestions) { return suggestions.value || ""; }
+    formatSelected: function (suggestion) { 
+      if ((el=document.getElementById('value5310')) && suggestion.data && suggestion.data.geo_lat && suggestion.data.geo_lon) el.value = suggestion.data.geo_lat + ' ' + suggestion.data.geo_lon;      
+      return suggestion.value || ''; 
+    }
 });
 
 setTimeout(
