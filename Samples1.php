@@ -55,6 +55,10 @@ str_pad($month, 2, '0', STR_PAD_LEFT);
   // коды для ВО
 echo '<script>window.opener.location.reload(1); window.close(); </script>';
 
+$ids = '';
+if ($sel=form_input($_REQUEST['sel'])) foreach ($sel as $id) $ids .= "<input type='hidden' name='sel[]' value='".$id."'>";
+elseif (isset($_REQUEST['line_id'])) $ids = "<input type='hidden' name='line_id' value='".$ID."'>";
+
 $s = <<<EOT
 <form method="GET">
   <input type='hidden' name='id' value='$button_id'> 
