@@ -52,21 +52,58 @@ $smarty->assign("yList2", $yList2);
   // дописать 0 в дне месяца, если он до 10
 str_pad($month, 2, '0', STR_PAD_LEFT);
 
-  // коды для ВО
-echo '<script>window.opener.location.reload(1); window.close(); </script>';
+
+  // Обработка ДД для мультивыбора строк в таблице
+global $lines;
+if (!$lines) $lines = array_map('intval', form_input($_REQUEST['sel']));
+if (!$lines && $ID) $lines = [$ID];
+if (!$lines) echo '<script> alert("Выберите строки для отправки, пожалуйста"); window.close(); </script>';
 
 $ids = '';
 if ($sel=form_input($_REQUEST['sel'])) foreach ($sel as $id) $ids .= "<input type='hidden' name='sel[]' value='".$id."'>";
 elseif (isset($_REQUEST['line_id'])) $ids = "<input type='hidden' name='line_id' value='".$ID."'>";
 
+if ($input) {
+  echo '<script> window.opener.location.reload(1); window.close(); </script>';
+}
+
 $s = <<<EOT
-<form method="GET">
+<link rel='stylesheet' href='https://clientbasepro.ru/Customization/customization.css' type='text/css'>
+<form method='GET'>
   <input type='hidden' name='id' value='$button_id'> 
   <input type='hidden' name='line_id' value='$ID'>  
   <h3>Заголовок</h3>
   <input type='date' min='$today' name='date' value='$tomorrow'>
   <input type='submit' value='Записать'>
 </form>
+<style>
+  body {
+    font-family:            Ubuntu, sans-serif;
+  }
+  input,
+  select,
+  textarea {
+    border-radius:          3px;
+  }
+  textarea {
+    padding:                3px;
+    resize:                 vertical;
+    width:                  98%;
+  }
+  input[type=submit]:hover {
+    cursor:                 pointer;
+  }  
+  input:required:invalid,
+  select:required:invalid,
+  textarea:required:invalid {
+    background-color:       #FADBD8;
+  }
+  input:required:valid,
+  select:required:valid,
+  textarea:required:valid {
+    background-color:       #EAFAF1;
+  }
+</style>
 EOT;
 echo $s;
 
