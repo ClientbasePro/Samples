@@ -90,7 +90,8 @@ $s = <<<EOT
     resize:                 vertical;
     width:                  98%;
   }
-  input[type=submit]:hover {
+  input[type=submit]:hover,
+  input[type=button]:hover {
     cursor:                 pointer;
   }  
   input:required:invalid,
