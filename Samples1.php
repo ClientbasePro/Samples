@@ -91,7 +91,8 @@ $s = <<<EOT
     width:                  98%;
   }
   input[type=submit]:hover,
-  input[type=button]:hover {
+  input[type=button]:hover,
+  label:hover {
     cursor:                 pointer;
   }  
   input:required:invalid,
