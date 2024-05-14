@@ -104,9 +104,16 @@ $s = <<<EOT
   textarea:required:valid {
     background-color:       #EAFAF1;
   }
+  input[type=radio],
+  input[type=checkbox] {
+    transform:              scale(1.3);
+    -ms-transform:          scale(1.3);
+    -webkit-transform:      scale(1.3);
+  }
 </style>
 EOT;
 echo $s;
+exit;
 
   // загрузка вышестоящего поля из нижестоящего в подтаблице
 if (!$line['Категория']['raw'] && $line['Прайс-лист']['raw'] && $line['Прайс-лист']['Категория']['raw']) $line['Категория'] = $line['Прайс-лист']['Категория']['raw'];
