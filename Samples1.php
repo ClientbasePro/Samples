@@ -55,7 +55,7 @@ str_pad($month, 2, '0', STR_PAD_LEFT);
 
   // Обработка ДД для мультивыбора строк в таблице
 global $lines;
-if (!$lines) $lines = array_map('intval', form_input($_REQUEST['sel']));
+if (!$lines) $lines = array_filter(form_input($_REQUEST['sel']), 'intval');
 if (!$lines && $ID) $lines = [$ID];
 if (!$lines) echo '<script> alert("Выберите строки для отправки, пожалуйста"); window.close(); </script>';
 
