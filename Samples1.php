@@ -56,7 +56,7 @@ str_pad($month, 2, '0', STR_PAD_LEFT);
   // Обработка ДД для мультивыбора строк в таблице
 global $lines;
 if ($lines) $lines = array_filter($lines, 'intval');
-if (!$lines && ($lines_=form_input($_REQUEST['sel']))) {
+elseif ($lines_=form_input($_REQUEST['sel'])) {
   $lines_ = array_filter($lines_, 'intval');
   if ($lines_) $lines = $lines_;
 }
