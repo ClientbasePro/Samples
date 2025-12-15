@@ -62,10 +62,13 @@ elseif ($lines_=form_input($_REQUEST['sel'])) {
 }
 if (!$lines && $ID) $lines = [$ID];
 if (!$lines) { echo '<script> alert("Выберите строки для отправки, пожалуйста"); window.close(); </script>'; exit; }
+$lines = array_values($lines);
+
 
 $ids = '';
-if ($sel=form_input($_REQUEST['sel'])) foreach ($sel as $id) $ids .= "<input type='hidden' name='sel[]' value='".$id."'>";
-elseif (isset($_REQUEST['line_id'])) $ids = "<input type='hidden' name='line_id' value='".$ID."'>";
+if ($id=intval($_REQUEST['line_id'])) $ids = '<input type="hidden" name="line_id" value="'.(($ID)?:$id).'">';
+else foreach ($lines as $id) $ids .= '<input type="hidden" name="sel[]" value="'.$id.'">';
+
 
 if ($input) {
   echo '<script> window.opener.location.reload(1); window.close(); </script>';
