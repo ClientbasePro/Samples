@@ -66,7 +66,7 @@ $lines = array_values($lines);
 
 
 $ids = '';
-if ($id=intval($_REQUEST['line_id'])) $ids = '<input type="hidden" name="line_id" value="'.(($ID)?:$id).'">';
+if ($id=intval($_REQUEST['line_id'])) $ids = '<input type="hidden" name="line_id" value="'.((intval($ID))?:$id).'">';
 else foreach ($lines as $id) $ids .= '<input type="hidden" name="sel[]" value="'.$id.'">';
 
 
